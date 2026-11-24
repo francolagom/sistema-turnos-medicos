@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Pacientes | Turnos Médicos{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">GESTIÓN DE DATOS</p><h1>Pacientes</h1><p class="muted">Registrá y consultá los datos de las personas atendidas en la clínica.</p></div></div>
+<div class="content-grid">
+<section class="panel"><h2>Registrar paciente</h2><form method="post" class="form-grid">
+  <label>DNI *<input name="dni" required maxlength="15" placeholder="Ej. 30111222"></label>
+  <label>Nombre *<input name="first_name" required maxlength="50"></label>
+  <label>Apellido *<input name="last_name" required maxlength="50"></label>
+  <label>Teléfono *<input name="phone" required maxlength="20" placeholder="Ej. 1123456789"></label>
+  <label class="span-2">Correo electrónico<input name="email" type="email" maxlength="100" placeholder="nombre@correo.com"></label>
+  <div class="span-2"><button class="btn btn-primary" type="submit">Guardar paciente</button></div>
+</form><p class="form-note">* Campos obligatorios.</p></section>
+<section class="panel"><div class="section-heading"><div><h2>Pacientes registrados</h2><p class="muted">{{ patients|length }} registro(s)</p></div></div>
+{% if patients %}<div class="table-wrap"><table><thead><tr><th>Paciente</th><th>DNI</th><th>Teléfono</th><th>Acciones</th></tr></thead><tbody>
+{% for patient in patients %}<tr><td><strong>{{ patient.first_name }} {{ patient.last_name }}</strong><small>{{ patient.email or 'Sin correo' }}</small></td><td>{{ patient.dni }}</td><td>{{ patient.phone }}</td><td class="actions"><a class="text-link" href="{{ url_for('edit_patient', patient_id=patient.id) }}">Editar</a><form method="post" action="{{ url_for('delete_patient', patient_id=patient.id) }}" onsubmit="return confirm('¿Eliminar este paciente?')"><button class="text-button danger-text" type="submit">Eliminar</button></form></td></tr>{% endfor %}
+</tbody></table></div>{% else %}<div class="empty-state">Todavía no hay pacientes registrados.</div>{% endif %}</section>
+</div>
+{% endblock %}

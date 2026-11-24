@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Médicos | Turnos Médicos{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">GESTIÓN DE PROFESIONALES</p><h1>Médicos</h1><p class="muted">Administrá los profesionales y sus especialidades.</p></div></div>
+<div class="content-grid">
+<section class="panel"><h2>Registrar médico</h2><form method="post" class="form-grid">
+<label>Nombre *<input name="first_name" required maxlength="50"></label>
+<label>Apellido *<input name="last_name" required maxlength="50"></label>
+<label class="span-2">Especialidad *<input name="specialty" required maxlength="60" placeholder="Ej. Clínica médica"></label>
+<div class="span-2"><button class="btn btn-primary" type="submit">Guardar médico</button></div>
+</form><p class="form-note">* Campos obligatorios.</p></section>
+<section class="panel"><div class="section-heading"><div><h2>Médicos registrados</h2><p class="muted">{{ doctors|length }} profesional(es)</p></div></div>
+{% if doctors %}<div class="table-wrap"><table><thead><tr><th>Profesional</th><th>Especialidad</th><th>Acciones</th></tr></thead><tbody>
+{% for doctor in doctors %}<tr><td><strong>{{ doctor.first_name }} {{ doctor.last_name }}</strong></td><td>{{ doctor.specialty }}</td><td><form method="post" action="{{ url_for('delete_doctor', doctor_id=doctor.id) }}" onsubmit="return confirm('¿Eliminar este médico?')"><button class="text-button danger-text" type="submit">Eliminar</button></form></td></tr>{% endfor %}
+</tbody></table></div>{% else %}<div class="empty-state">Todavía no hay médicos registrados.</div>{% endif %}</section>
+</div>
+{% endblock %}

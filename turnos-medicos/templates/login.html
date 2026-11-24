@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Iniciar sesión | Turnos Médicos{% endblock %}
+{% block content %}
+<section class="login-card">
+  <div class="login-symbol">+</div>
+  <p class="eyebrow">CLÍNICA · ADMINISTRACIÓN</p>
+  <h1>Ingresar al sistema</h1>
+  <p class="muted">Accedé para administrar pacientes, profesionales y turnos.</p>
+  <form method="post" class="form-stack">
+    <label>Usuario<input name="username" autocomplete="username" required autofocus></label>
+    <label>Contraseña<input name="password" type="password" autocomplete="current-password" required></label>
+    <button class="btn btn-primary btn-full" type="submit">Ingresar</button>
+  </form>
+  <p class="demo-hint">Demo inicial: <strong>admin</strong> / <strong>admin1234</strong></p>
+</section>
+{% endblock %}

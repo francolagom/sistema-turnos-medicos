@@ -1,7 +1,5 @@
 # Sistema de Gestión de Turnos Médicos
 
-Aplicación web académica para administrar pacientes, médicos, horarios de atención y turnos de una clínica pequeña. Forma parte del proyecto integrador de desarrollo de software.
-
 ## Funcionalidades incluidas
 
 - Inicio y cierre de sesión del personal administrativo.
@@ -13,7 +11,7 @@ Aplicación web académica para administrar pacientes, médicos, horarios de ate
 - Búsqueda de turnos por paciente, médico o fecha.
 - Modificación y cancelación de turnos.
 - Validación para impedir que un médico o paciente tenga dos turnos activos en el mismo día y horario.
-- Base de datos SQLite creada automáticamente.
+- Base de datos SQLite.
 
 ## Requisitos
 
@@ -63,8 +61,6 @@ La base de datos se crea automáticamente en `instance/turnos.db` y se carga inf
 
 - **Usuario:** `admin`
 - **Contraseña:** `admin1234`
-
-Estas credenciales son exclusivamente para la demostración académica. Cambiar la clave y configurar una `SECRET_KEY` propia antes de cualquier despliegue real. La aplicación es un prototipo educativo y no debe utilizarse para almacenar datos médicos reales o información personal sensible.
 
 ## Estructura del proyecto
 

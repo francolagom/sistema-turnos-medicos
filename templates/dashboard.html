@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Inicio | Turnos Médicos{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">PANEL DE ADMINISTRACIÓN</p><h1>Resumen general</h1><p class="muted">Desde aquí podés acceder a las funciones principales del sistema.</p></div><a class="btn btn-primary" href="{{ url_for('new_appointment') }}">＋ Asignar turno</a></div>
+<div class="stat-grid">
+  <article class="stat-card"><span class="stat-label">Pacientes registrados</span><strong>{{ stats.patients }}</strong><a href="{{ url_for('patients') }}">Ver pacientes →</a></article>
+  <article class="stat-card"><span class="stat-label">Médicos registrados</span><strong>{{ stats.doctors }}</strong><a href="{{ url_for('doctors') }}">Ver médicos →</a></article>
+  <article class="stat-card"><span class="stat-label">Turnos programados</span><strong>{{ stats.appointments }}</strong><a href="{{ url_for('appointments') }}">Ver turnos →</a></article>
+</div>
+<section class="panel">
+  <div class="section-heading"><div><h2>Turnos de hoy</h2><p class="muted">{{ today_appointments|length }} turno(s) programado(s) para la fecha actual.</p></div></div>
+  {% if today_appointments %}
+  <div class="table-wrap"><table><thead><tr><th>Hora</th><th>Paciente</th><th>Médico</th><th>Estado</th></tr></thead><tbody>
+  {% for item in today_appointments %}<tr><td class="strong">{{ item.appointment_time }}</td><td>{{ item.patient_name }}</td><td>{{ item.doctor_name }}</td><td><span class="status status-active">{{ item.status }}</span></td></tr>{% endfor %}
+  </tbody></table></div>
+  {% else %}<div class="empty-state">No hay turnos programados para hoy.</div>{% endif %}
+</section>
+{% endblock %}

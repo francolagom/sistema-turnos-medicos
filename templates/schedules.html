@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Horarios | Turnos Médicos{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">CONFIGURACIÓN DE AGENDA</p><h1>Horarios de atención</h1><p class="muted">Definí qué días y en qué horarios atiende cada profesional.</p></div></div>
+<div class="content-grid">
+<section class="panel"><h2>Agregar horario</h2>
+{% if doctors %}<form method="post" class="form-grid">
+<label class="span-2">Médico *<select name="doctor_id" required><option value="">Seleccionar médico</option>{% for doctor in doctors %}<option value="{{ doctor.id }}">{{ doctor.last_name }}, {{ doctor.first_name }} — {{ doctor.specialty }}</option>{% endfor %}</select></label>
+<label>Día de atención *<select name="weekday" required><option value="">Seleccionar día</option>{% for day in weekdays %}<option value="{{ loop.index0 }}">{{ day }}</option>{% endfor %}</select></label>
+<label>Duración del turno *<select name="slot_minutes" required><option value="15">15 minutos</option><option value="20">20 minutos</option><option value="30" selected>30 minutos</option><option value="45">45 minutos</option><option value="60">60 minutos</option></select></label>
+<label>Desde *<input name="start_time" type="time" required></label>
+<label>Hasta *<input name="end_time" type="time" required></label>
+<div class="span-2"><button class="btn btn-primary" type="submit">Agregar horario</button></div>
+</form>{% else %}<div class="empty-state">Primero registrá al menos un médico.</div>{% endif %}
+</section>
+<section class="panel"><div class="section-heading"><div><h2>Agenda configurada</h2><p class="muted">{{ schedules|length }} horario(s)</p></div></div>
+{% if schedules %}<div class="table-wrap"><table><thead><tr><th>Médico</th><th>Día</th><th>Atención</th><th>Duración</th><th></th></tr></thead><tbody>
+{% for item in schedules %}<tr><td><strong>{{ item.first_name }} {{ item.last_name }}</strong></td><td>{{ weekdays[item.weekday] }}</td><td>{{ item.start_time }} a {{ item.end_time }}</td><td>{{ item.slot_minutes }} min</td><td><form method="post" action="{{ url_for('delete_schedule', schedule_id=item.id) }}" onsubmit="return confirm('¿Eliminar este horario?')"><button class="text-button danger-text" type="submit">Eliminar</button></form></td></tr>{% endfor %}
+</tbody></table></div>{% else %}<div class="empty-state">Todavía no se configuraron horarios.</div>{% endif %}</section>
+</div>
+{% endblock %}

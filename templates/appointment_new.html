@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Asignar turno | Turnos Médicos{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">AGENDA DE LA CLÍNICA</p><h1>Asignar un turno</h1><p class="muted">Elegí paciente, médico y fecha para consultar los horarios libres.</p></div><a class="btn btn-secondary" href="{{ url_for('appointments') }}">Volver a turnos</a></div>
+<section class="panel narrow-panel">
+{% if doctors and patients %}
+<form method="get" class="form-grid availability-form">
+<label class="span-2">Médico<select name="doctor_id" required><option value="">Seleccionar médico</option>{% for doctor in doctors %}<option value="{{ doctor.id }}" {% if selected_doctor == doctor.id %}selected{% endif %}>{{ doctor.last_name }}, {{ doctor.first_name }} — {{ doctor.specialty }}</option>{% endfor %}</select></label>
+<label class="span-2">Fecha<input type="date" name="appointment_date" min="{{ today|default('') }}" value="{{ selected_date }}" required></label>
+<div class="span-2"><button class="btn btn-secondary" type="submit">Consultar disponibilidad</button></div>
+</form>
+{% if selected_doctor and selected_date %}
+<div class="availability-box"><strong>Horarios disponibles</strong>{% if slots %}<p class="muted">Seleccioná uno de estos horarios en el formulario.</p><div class="slot-list">{% for slot in slots %}<span class="slot-chip">{{ slot }}</span>{% endfor %}</div>{% else %}<p class="muted">No hay horarios disponibles para esa fecha. Verificá que el médico tenga una agenda cargada.</p>{% endif %}</div>
+{% endif %}
+<hr class="soft-divider">
+<h2>Confirmar turno</h2>
+<form method="post" class="form-grid">
+<label class="span-2">Paciente<select name="patient_id" required><option value="">Seleccionar paciente</option>{% for patient in patients %}<option value="{{ patient.id }}">{{ patient.last_name }}, {{ patient.first_name }} — DNI {{ patient.dni }}</option>{% endfor %}</select></label>
+<label class="span-2">Médico<select name="doctor_id" required><option value="">Seleccionar médico</option>{% for doctor in doctors %}<option value="{{ doctor.id }}" {% if selected_doctor == doctor.id %}selected{% endif %}>{{ doctor.last_name }}, {{ doctor.first_name }}</option>{% endfor %}</select></label>
+<label class="span-2">Fecha<input type="date" name="appointment_date" value="{{ selected_date }}" required></label>
+<label class="span-2">Horario<select name="appointment_time" required><option value="">Seleccionar horario disponible</option>{% for slot in slots %}<option value="{{ slot }}">{{ slot }}</option>{% endfor %}</select></label>
+<div class="span-2"><button class="btn btn-primary" type="submit">Guardar turno</button></div>
+</form>
+{% else %}<div class="empty-state">Para asignar un turno necesitás registrar al menos un paciente y un médico.</div>{% endif %}
+</section>
+{% endblock %}

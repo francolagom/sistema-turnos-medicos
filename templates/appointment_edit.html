@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Modificar turno | Turnos Médicos{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">AGENDA DE LA CLÍNICA</p><h1>Modificar turno</h1><p class="muted">Elegí nuevamente el paciente, el médico y el horario disponible.</p></div><a class="btn btn-secondary" href="{{ url_for('appointments') }}">Volver a turnos</a></div>
+<section class="panel narrow-panel">
+<form method="get" class="form-grid availability-form">
+<label class="span-2">Médico<select name="doctor_id" required><option value="">Seleccionar médico</option>{% for doctor in doctors %}<option value="{{ doctor.id }}" {% if selected_doctor == doctor.id %}selected{% endif %}>{{ doctor.last_name }}, {{ doctor.first_name }} — {{ doctor.specialty }}</option>{% endfor %}</select></label>
+<label class="span-2">Fecha<input type="date" name="appointment_date" min="{{ today }}" value="{{ selected_date }}" required></label>
+<div class="span-2"><button class="btn btn-secondary" type="submit">Consultar disponibilidad</button></div>
+</form>
+<div class="availability-box"><strong>Horarios disponibles</strong>{% if slots %}<div class="slot-list">{% for slot in slots %}<span class="slot-chip">{{ slot }}</span>{% endfor %}</div>{% else %}<p class="muted">No hay horarios disponibles para la selección actual.</p>{% endif %}</div>
+<hr class="soft-divider">
+<form method="post" class="form-grid">
+<label class="span-2">Paciente<select name="patient_id" required>{% for patient in patients %}<option value="{{ patient.id }}" {% if patient.id == appointment.patient_id %}selected{% endif %}>{{ patient.last_name }}, {{ patient.first_name }} — DNI {{ patient.dni }}</option>{% endfor %}</select></label>
+<label class="span-2">Médico<select name="doctor_id" required>{% for doctor in doctors %}<option value="{{ doctor.id }}" {% if selected_doctor == doctor.id %}selected{% endif %}>{{ doctor.last_name }}, {{ doctor.first_name }}</option>{% endfor %}</select></label>
+<label class="span-2">Fecha<input type="date" name="appointment_date" min="{{ today }}" value="{{ selected_date }}" required></label>
+<label class="span-2">Horario<select name="appointment_time" required><option value="">Seleccionar horario disponible</option>{% for slot in slots %}<option value="{{ slot }}" {% if slot == appointment.appointment_time and selected_date == appointment.appointment_date and selected_doctor == appointment.doctor_id %}selected{% endif %}>{{ slot }}</option>{% endfor %}</select></label>
+<div class="span-2"><button class="btn btn-primary" type="submit">Guardar modificación</button></div>
+</form>
+</section>
+{% endblock %}
